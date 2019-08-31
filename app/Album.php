@@ -1,0 +1,65 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+
+class Album extends Model
+{
+    protected $table = 'album';
+    protected $fillable = ['source_id', 'name'];
+
+    /** @var Collection */
+    private $pictures;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->pictures = new Collection();
+    }
+
+    public function getSourceId(): ?int
+    {
+        return $this->source_id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name ?? '---';
+    }
+
+    public function getPictures()
+    {
+        return $this->hasMany(Picture::class, 'album_id')
+            ->getResults();
+    }
+
+    public function deleteAllPictures()
+    {
+        return $this->hasMany(Picture::class, 'album_id')
+            ->delete();
+    }
+
+    public function isTheSame(int $id): bool
+    {
+        return $this->getSourceId() === $id;
+    }
+
+    public static function findBySourceId(int $id): ?Album
+    {
+        $query = self::query();
+        /** @var Album $album */
+        $album = $query->select()
+            ->where('source_id', '=', $id)
+            ->first();
+
+        return $album;
+    }
+
+    public function addPicture(Picture $picture): self
+    {
+        $this->pictures->add($picture);
+        return $this;
+    }
+}
