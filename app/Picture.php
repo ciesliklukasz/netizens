@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property integer $id
+ */
 class Picture extends Model
 {
     protected $table = 'picture';
@@ -21,6 +24,31 @@ class Picture extends Model
     public function getSourceId(): ?int
     {
         return $this->source_id;
+    }
+
+    public function getAlbumId(): ?int
+    {
+        return $this->album_id;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function getThumbnailUrl(): ?string
+    {
+        return $this->thumbnail_url;
+    }
+
+    public function getFingerprint()
+    {
+        return $this->fingerprint;
     }
 
     public static function findBySourceId(int $id): ?Picture
