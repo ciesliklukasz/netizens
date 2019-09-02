@@ -10,15 +10,6 @@ class Album extends Model
     protected $table = 'album';
     protected $fillable = ['source_id', 'name'];
 
-    /** @var Collection */
-    private $pictures;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->pictures = new Collection();
-    }
-
     public function getSourceId(): ?int
     {
         return $this->source_id;
@@ -55,11 +46,5 @@ class Album extends Model
             ->first();
 
         return $album;
-    }
-
-    public function addPicture(Picture $picture): self
-    {
-        $this->pictures->add($picture);
-        return $this;
     }
 }

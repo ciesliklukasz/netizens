@@ -65,7 +65,9 @@ class Picture extends Model
     public static function getFingerprints(): array
     {
         $query = self::query();
-        $result = $query->select('fingerprint')->get()->toArray();
+        $result = $query->select('fingerprint')
+            ->get()
+            ->toArray();
 
         $data = [];
         foreach ($result as $item)

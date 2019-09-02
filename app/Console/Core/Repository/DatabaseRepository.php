@@ -22,6 +22,15 @@ class DatabaseRepository extends DatabaseStore
         return $this->table()->delete();
     }
 
+    public function findBySourceId(int $sourceId)
+    {
+        $this->table = 'picture';
+        return $this->table()
+            ->select()
+            ->where('source_id', '=', $sourceId)
+            ->first();
+    }
+
     public function getAll(string $model): Collection
     {
         $collection = new Collection();
@@ -44,20 +53,5 @@ class DatabaseRepository extends DatabaseStore
     {
         $this->table = $model->getTable();
         return null !== $this->table()->find($model->id);
-    }
-
-    public function getFingerprint()
-    {
-        $picture = new Picture();
-        $this->table = $picture->getTable();
-        $result = $this->table()->select('fingerprint')->get()->toArray();
-
-        $fingerprints = [];
-        foreach ($result as $item)
-        {
-            $fingerprints[] = $item->fingerprint;
-        }
-
-        return $fingerprints;
     }
 }
